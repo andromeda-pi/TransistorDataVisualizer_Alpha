@@ -1,13 +1,15 @@
 # TransistorDataVisualizer (tdv) (alpha release)
 A Python package for quickly plotting easyEXPERT CSV files
 
-Creating Plots:
+There are some comments and docstrings spread throughout the tdv source file
+
+Import commands:
 ```
 # import the main package (alpha version)
 import TransistorDataVisualizer as tdv
 
 # import the file mappings
-import TransistorDataFiles as fls
+import TransistorDataFiles as fls   # this lists a bunch of tests to be imported
 # if your file setup is different, change it in the above package and resave it
 ```
 
@@ -66,7 +68,7 @@ S1.quick_plot3d(-1)
 ```
 
 # DataBank
-## The main feature of the tdv package
+The main feature of the tdv package
 
 ## The DataBank is used to store and plot multiple DataSets against eachother. 
 
@@ -119,7 +121,7 @@ B.domain # now the domain is back to its default settings
 
 
 
-### Override
+## Override
 The databank will need its `override` attribute set to `True` in order to add DataSets of mismatching test type (for instance adding a 'Ib7' test to a DataBank containing a 'It7' test)
 
 #### Example:
