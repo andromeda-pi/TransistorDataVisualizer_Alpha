@@ -286,6 +286,16 @@ class File:
         xtrimmed = x[ rows[0]:rows[1], cols[0]:cols[1] ]
         ytrimmed = y[ rows[0]:rows[1], cols[0]:cols[1] ]
         """
+        
+    def print_indices(self):   
+        '''Prints off indices of the corresponding axis label'''     
+        print(" index\theader")
+        headers = self.get_headers()
+        for j, h in enumerate(headers):
+            print(f"   {j}\t {h}")
+
+
+
 
 # @dataclass
 class DataInfo:
@@ -699,13 +709,13 @@ class DataBank:
                                 label = names[i])#cstride=file.m_dim2_count)
         plt.show()
     
-    def print_indices(self, labels = False):   
+    def print_indices(self):   
         '''Prints off indices of the corresponding axis label'''     
         for i, S in enumerate(self.m_DataSets):
             print(f"For data set {i}:")
 
-            if labels:
-                print(" index\theader\taxis label")
+            if self.auto_labels:
+                print(" index\theader\tauto axis label")
                 ax_labels = []
 
             else:
@@ -714,7 +724,7 @@ class DataBank:
             headers = S.get_headers()
             for j, h in enumerate(headers):
                 
-                if labels:
+                if self.auto_labels:
                     if j == 0:
                         ax_labels = self.make_auto_labels(headers[0], headers[1], headers[2])
                     elif j > 2:
