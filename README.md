@@ -1,19 +1,54 @@
 # TransistorDataVisualizer (tdv) (alpha release)
 A Python package for quickly plotting easyEXPERT CSV files
 
-There are some comments and docstrings spread throughout the tdv source file
+## Quick Start
+Typically, you'll want to import `TransistorDataVisualizer.py` and `TransistorDataFiles.py` which contains the `DataFiles` to create `DataSets` out of. Then, add them to a `DataBank` and begin ploting. 
 
-Import commands:
+### Example:
 ```
-# import the main package (alpha version)
-import TransistorDataVisualizer as tdv
-
-# import the file mappings
-import TransistorDataFiles as fls   # this lists a bunch of tests to be imported
+import TransistorDataVisualizer as tdv # import the main package (alpha version)
+import TransistorDataFiles as fls # import the file mappings
 # if your file setup is different, change it in the above package and resave it
+
+# select the tests you want:
+tests = [fls.It4, fls.It6, fls.It7, fls.It8]
+
+B = tdv.DataBank() # then create a DataBank
+
+# then turn all the tests into DataSets and add them to the DataBank
+for test in tests:
+    B.append( tdv.DataSet( test ) )
+
+B.print() # check what is in your bank
+
+# and get the index info to start plotting:
+B.print_indices()
 ```
 
-### tdv has several data structures
+## Summary of the Data Structures of TransistorDataVisualizer
+* `DataFile`: Used to create `File` and `DataSet` objects from CSV files.
+* `File`: Used to quickly and unaesthetically plot data for quick checks of data integrity. 
+* `DataSet`: Is built on top of a `File` and has more features. Used to store data and configure individual plotting preferences. Has 1 main plotting functions:
+    * `quick_plot3d(Zindex:int, connectors:bool = True)`: Plots the data at the selected Zindex against against the x- and y-axes in 3D as a wireframe. Zindex simply corresponds to the data headers in the order they appear. 
+* `DataBank`: Can have `DataSets` added or removed via its `append()` or `pop()` methods. Is the primary mode for plotting tests and has robust features: plotting, domain restriciton, and aesthetic changes. 
+    For its plotting functions:
+    * `quick_plot3d(Zindex)`: Quickly plots data on its selected domain using the Zindex corresponding to each `DataSet`'s headers. 
+    * `quick_plot2d(x_idx, y_idx)`: Given the x-axis for a 2d plot and a y-axis (typically conceptualzied as the Zindex for a 3d plot) for a 2d plot, the excluded independent variable is collapsed down and represented in grey-scale.
+    * `quick_div_plot3d(DivSet: DataSet, divIdx)`: Creates a plot of the `DataBank` relative to the dividing `DataSet` with additional, potential parameters.   
+For more information, see each data structure's section below.  
+
+## Providing Function Indices
+Many funcitons will ask for an index. The `File` structure of parsed CSV data is as so stored in a datadictionary contaning the data correpsonding to the headers. The the index then is simply the integer index into the headers list. For example:
+If `m_headers` = \[independent_variable1, independent_variable2, dependent_variable1, ... dependent_variableN\]
+and you want an index `idx` for selecting data, then you will get:
+`idx` = 
+* 0/'x' = independent_variable1's data
+* 1/'y' = independent_variable2's data
+* 2 = dependent_variable1's data
+* -1 = dependent_variableN's data
+
+When 3d plotting, `Zindex`, the index for to be `Z` axis, should be indexed negatively. 
+_If you are unsure of what index you should use, use the `.print_indices()` function._ 
 
 ## DataFile: 
 Stores the file location and test type for a CSV file.
@@ -57,8 +92,10 @@ File1.quick_plot3d(Zindex = -1)
 ## DataSet
 Turns a DataFile into a useful plottable object and has more plotting functionality
 
-### quick_plot3d(Zindex:int = -1)
+### `quick_plot3d(Zindex:int, connectors:bool = True)`
+Plots the data at the selected Zindex (typically set as -1) against index 0 (correpsonding to the default x-axis data) and index 1 (corresponding to default y-axis data) in 3D. The data is plotted as a wireframe and if connectors = True, all data points are connected; otherwise, the data is represented as points (which is more accurate to the tests). Zindex simply corresponds to the data headers in the order they appear. 
 
+#### Example:
 ```
 test1 = tdv.DataFile('Ib7',r"Id-Vds var const Vbgs_n1.csv")
 S1 = tdv.DataSet(test1)
@@ -68,23 +105,36 @@ S1.quick_plot3d(-1)
 ```
 
 # DataBank
-The main feature of the tdv package
-
-## The DataBank is used to store and plot multiple DataSets against eachother. 
+The main feature of the tdv package. The DataBank is used to store and plot multiple DataSets against eachother. 
 
 ### Adding/Removing DataSets to the DataBank
-Use the .append() or .pop() methods
+Use the `.append()` or `.pop()` methods
 
 ### print()
 You can also show what is in your DataBank using its `.print()` function.
 
+### print_indices()
+
+
 ## Plotting
 
-### quick_plot2d()
+### `quick_plot2d(x_idx, y_idx)`
+Given the x-axis for a 2d plot and a y-axis (typically conceptualzied as the Zindex for a 3d plot) for a 2d plot, the excluded independent variable is collapsed down and represented in grey-scale.
 
-### quick_div_plot3d(Zindex, divSet, divIdx)
+#### Example: 
+```
+# assuming you have a preexisting DataBank called 'B'
 
-### quick_plot3d(Zindex=-1)
+B.quick_plot2d(0, -1) # will plot the last dependent variable against the default x-axis. 
+# Alternative syntax can be used:
+B.quick_plot2d('x', -1) # this will be the same plot
+```
+
+### `quick_div_plot3d(DivSet: DataSet, divIdx, drop_zeros=True, tolerance: float = -1, Zindex=-1)`
+Creates a plot of the `DataBank` relative to the dividing `DataSet`. Divides all the `DataBank`'s `DataSet`s by the dividing `DataSet` called `DivSet` using the `DivSet`'s Zindex called the `divIdx`. If `drop_zeros` is `True`, columns/rows of zeros within the set `tolerance` (which can be specified) are dropped before being plotted.   
+
+### `quick_plot3d(Zindex:int = -1)`
+Plots the data at the selected Zindex (automatically set as -1) against index 0 (correpsonding to the default x-axis data) and index 1 (corresponding to default y-axis data) in 3D as a wireframe with (if connectors = True). Zindex simply corresponds to the data headers in the order they appear. 
 
 #### Example:
 ```
@@ -121,7 +171,7 @@ B.domain # now the domain is back to its default settings
 
 
 
-## Override
+### Override
 The databank will need its `override` attribute set to `True` in order to add DataSets of mismatching test type (for instance adding a 'Ib7' test to a DataBank containing a 'It7' test)
 
 #### Example:
