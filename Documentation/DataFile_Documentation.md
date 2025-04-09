@@ -14,3 +14,13 @@ Comprised of a character (which denotes test type), another character (denoting 
 There are two test types: 'I' for a current test and 'R' for a resistance test.
 There are two gate types: 't' for top gate or 'b' for bottom gate operation.
 Transistor number: can be anything, but is useful to differentaite tests from eachother.
+
+### Example: Creating a `DataFile` from a file path and file name
+Suppose you have a CSV file named `Id-Vds var const Vbgs_n1.csv` that you want to plot and get a feel for. 
+`import TransistorDataFiles as fls
+import TransistorDataVisualizer
+
+DF = tdv.DataFile( 'Ib8', r'C:\ABSOLUTE_FILE_PATH\Device8\Id-Vds var const Vbgs_n1.csv' )
+F = tdv.File(DF)
+F.quick_plot3d(-1)
+`
