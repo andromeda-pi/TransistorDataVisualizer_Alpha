@@ -12,9 +12,7 @@ It also has access to two new, plotting methods that the `DataBank` does not hav
 There are other, non-plotting methods that are demonstrated below the Plotting section. 
 
 ## Plotting
-The `Plotter` has the most plotting options. Here are the following plotting methods:
-
-First, there are some variables set in the `Plotter` object that effect all plots:
+The `Plotter` has the most plotting options. The plotting methods are shown in the section after this (and after the example), but first, there are some variables set in the `Plotter` object that effect all plots:
 * `scatter_plots: bool = False`: Plots all functions without connecting lines. Can be useful when plotting in 2D with the second independent variable (i.e. `x_idx='y'`). Also, accurately represents the total number of data points the plotted data contains. 
 * `show_fig: bool = True`: Determines whether `matplotlib.pyplot.show()` is automatically called during execution of a quick_plot function. If `show_fig` is set to `False`, figures can be saved at higher resolution using [`matplotlib.pyplot.show()`][https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.show.html].
 * `auto_labels: bool = True`: Converts supported variables names (e.g. `'Id'`) to their written equivalents (e.g. `r'Drain-Source Current $I_D$ (A)'`). For more info, see the documentation on variable formatting .
