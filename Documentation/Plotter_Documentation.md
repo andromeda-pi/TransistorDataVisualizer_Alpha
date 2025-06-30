@@ -5,7 +5,8 @@ It has 5 main functions:
 * `quick_plot2d()`: Plots data in 2D. Can accept colormaps for coloring using `cmap=` `kwarg`.
 * `cmap_quick_plot3d()`: Plots data in 3D using a specificed colormap.
 * `quick_div_plot3d()`: Plots the quotient of data relative to a baseline `DataSet` in 3D. No colormap support.
-* `quick_div_plot2d()`: Plots the quotient of data relative to a baseline `DataSet` in 2D. Supports colormaps via `kwarg` `cmap` argument. 
+* `quick_div_plot2d()`: Plots the quotient of data relative to a baseline `DataSet` in 2D. Supports colormaps via `kwarg` `cmap` argument.
+
 It also has access to two new, plotting methods that the `DataBank` does not have: `cmap_quick_plot3d()` and `quick_div_plot2d()`. 
 
 There are other, non-plotting methods that are demonstrated below the Plotting section. 
