@@ -43,7 +43,8 @@ Required arguments:
 * None
 
 Optional, positional arguments:
-* `Zindex: int = -1`: The index that determines what data from the `Plotter`'s `DataSet`s gets plotted along the dependent axis (which is the z-axis in 3D, hence the name). 
+* `Zindex: int = -1`: The index that determines what data from the `Plotter`'s `DataSet`s gets plotted along the dependent axis (which is the z-axis in 3D, hence the name).
+ 
 Supported keyword (kwarg) arguments:
 * None
 
